@@ -31,44 +31,21 @@ hammer组成的Pinbar形态中，如右半图，左眼是一根看跌的阴烛�
 
 1.找到所有A股列表接口，清洗，并处理为结构化数据
 
-![image](https://user-images.githubusercontent.com/23202106/129580949-21237583-22c8-433c-b7fe-26d07d777a7b.png)
+![image](https://user-images.githubusercontent.com/23202106/129580905-e66ba0ce-4dc5-4496-9fc8-81a7b0826dfc.png)
 
 接口返回的是json数据，包含股票代码，及股票名称，其中股票代码的sh为上海，sz为深圳，共5399个股票。
 
 数据作简单处理，转换为直男能看懂的格式，并加上处理日期。
 
-![image](https://user-images.githubusercontent.com/23202106/129580905-e66ba0ce-4dc5-4496-9fc8-81a7b0826dfc.png)
+![image](https://user-images.githubusercontent.com/23202106/129580949-21237583-22c8-433c-b7fe-26d07d777a7b.png)
 
 2.根据列表获取个股的历史数据，
 
 从r_list.lst里读取基础数据，并采集历史数据：
 部分go代码如下：
 
-func ReadConfFile() {
-	defer func() {
-		if e := recover(); e != nil {
-			fmt.Println("ReadConfFile panic  :", e)
-		}
-	}()
-	var data_path = "r_list.lst"
-	chs := make(chan int, mp)
-	f, err := os.Open(data_path)
-	defer f.Close()
-	var count = 0
-	if nil == err {
-		buff := bufio.NewReader(f)
-		for {
-			line, err := buff.ReadString('\n')
-			if err != nil || io.EOF == err {
-				break
-			}
-			line = strings.Replace(line, "\n", "", -1)
-			line = strings.Replace(line, "\r", "", -1)
-			fmt.Println(line)
-			arry := strings.Split(line, ",")
-			go get_daydet(chs, arry[2])
-		}
-	}
+![image](https://user-images.githubusercontent.com/23202106/129582897-b56a12be-16a6-4fe8-80a3-4a85375e0fd0.png)
+
 
 清洗后结果如下：
 
